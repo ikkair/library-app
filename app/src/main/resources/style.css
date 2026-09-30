@@ -1,0 +1,21 @@
+.sidebar {
+    -fx-background-color: #20242b;
+    -fx-pref-width: 200px;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12px 20px;
+    -fx-background-radius: 0;
+	-fx-max-width: Infinity;
+}
+
+.menu-button:hover {
+    -fx-background-color: #343a43;
+}
+
+.menu-button:pressed {
+    -fx-background-color: #454c57;
+}
