@@ -1,19 +1,23 @@
 package dev.ikkair.library_app.view;
 
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class SidePanel extends VBox {
 
-    public SidePanel(BorderPane root) {
+    private final Button dashboardButton;
+    private final Button booksButton;
+    private final Button membersButton;
+    private final Button borrowingButton;
+
+    public SidePanel() {
 
 		getStyleClass().add("sidebar");
 
-        Button dashboardButton = new Button("Dashboard");
-        Button booksButton = new Button("Books");
-        Button membersButton = new Button("Members");
-        Button borrowingButton = new Button("Borrowing");
+        this.dashboardButton = new Button("Dashboard");
+        this.booksButton = new Button("Books");
+        this.membersButton = new Button("Members");
+        this.borrowingButton = new Button("Borrowing");
 
         dashboardButton.getStyleClass().add("menu-button");
         booksButton.getStyleClass().add("menu-button");
@@ -26,21 +30,21 @@ public class SidePanel extends VBox {
             membersButton,
             borrowingButton
         );
+    }
 
-        dashboardButton.setOnAction(event -> {
-            root.setCenter(new Dashboard());
-        });
+    public Button getDashboardButton(){
+        return this.dashboardButton;
+    }
 
-        booksButton.setOnAction(event -> {
-            root.setCenter(new Books());
-        });
+    public Button getBooksButton(){
+        return this.booksButton;
+    }
 
-        membersButton.setOnAction(event -> {
-            root.setCenter(new Members());
-        });
-
-        borrowingButton.setOnAction(event -> {
-            root.setCenter(new Borrowing());
-        });
+    public Button getMembersButton(){
+        return this.membersButton;
+    }
+   
+    public Button getBorrowingButton(){
+        return this.borrowingButton;
     }
 }

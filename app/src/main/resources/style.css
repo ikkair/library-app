@@ -16,6 +16,10 @@
     -fx-background-color: #343a43;
 }
 
+.menu-button:active {
+    -fx-background-color: #643a43;
+}
+
 .menu-button:pressed {
     -fx-background-color: #454c57;
 }
