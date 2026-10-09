@@ -1,5 +1,9 @@
 package dev.ikkair.library_app;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import dev.ikkair.library_app.controller.BooksController;
 import dev.ikkair.library_app.controller.SidePanelController;
 import dev.ikkair.library_app.view.BooksPageView;
@@ -7,6 +11,8 @@ import dev.ikkair.library_app.view.BorrowingPageView;
 import dev.ikkair.library_app.view.DashboardPageView;
 import dev.ikkair.library_app.view.MembersPageView;
 import dev.ikkair.library_app.view.SidePanel;
+import dev.ikkair.library_app.database.Database;
+import dev.ikkair.library_app.database.DatabaseInitializer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -16,6 +22,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+        try (Connection connection = Database.connect()) {
+            DatabaseInitializer.initialize(connection);
+        } catch (SQLException | IOException e) {
+            throw new RuntimeException(
+                "Failed to initialize the database", e
+            );
+        }
         BorderPane root = new BorderPane();
         SidePanel sidePanel = new SidePanel();
 
