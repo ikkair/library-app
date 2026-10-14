@@ -3,6 +3,5 @@ CREATE TABLE IF NOT EXISTS books (
     title TEXT NOT NULL,
     author TEXT,
     publication_year INTEGER,
-    publisher TEXT,
-    cover TEXT
+    publisher TEXT
 );

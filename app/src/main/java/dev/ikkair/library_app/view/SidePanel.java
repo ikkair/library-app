@@ -15,9 +15,9 @@ public class SidePanel extends VBox {
 		getStyleClass().add("sidebar");
 
         this.dashboardButton = new Button("Dashboard");
-        this.booksButton = new Button("Books");
-        this.membersButton = new Button("Members");
-        this.borrowingButton = new Button("Borrowing");
+        this.booksButton = new Button("Buku");
+        this.membersButton = new Button("Anggota");
+        this.borrowingButton = new Button("Peminjaman");
 
         dashboardButton.getStyleClass().add("menu-button");
         booksButton.getStyleClass().add("menu-button");

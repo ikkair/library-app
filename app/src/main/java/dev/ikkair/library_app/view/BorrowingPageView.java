@@ -7,6 +7,7 @@ public class BorrowingPageView extends VBox {
 
     public BorrowingPageView() {
         Label title = new Label("Borrowing");
+        getStyleClass().add("page");
 
         getChildren().add(title);
     }

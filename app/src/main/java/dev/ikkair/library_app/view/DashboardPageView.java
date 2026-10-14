@@ -7,6 +7,7 @@ public class DashboardPageView extends VBox {
 
     public DashboardPageView() {
         Label title = new Label("Dashboard");
+        getStyleClass().add("page");
 
         getChildren().addAll(title);
     }

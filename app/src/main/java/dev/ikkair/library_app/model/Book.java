@@ -1,6 +1,5 @@
 package dev.ikkair.library_app.model;
 
-import java.net.URI;
 import java.time.Year;
 
 public class Book {
@@ -9,19 +8,13 @@ public class Book {
     private String author;
     private Year publicationYear;
     private String publisher;
-    private URI cover;
 
-    public Book(String isbn, String title, String author, Year publicationYear, String publisher, URI cover) {
+    public Book(String isbn, String title, String author, Year publicationYear, String publisher) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.publicationYear = publicationYear;
         this.publisher = publisher;
-        this.cover = cover;
-    }
-
-    public URI getCover() {
-        return cover;
     }
 
     public String getAuthor() {

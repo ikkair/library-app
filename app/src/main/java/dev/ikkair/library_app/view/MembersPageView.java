@@ -7,6 +7,7 @@ public class MembersPageView extends VBox {
 
     public MembersPageView() {
         Label title = new Label("Members");
+        getStyleClass().add("page");
 
         getChildren().add(title);
     }

@@ -50,12 +50,13 @@ public class App extends Application {
         );
 
         root.setLeft(sidePanel);
-        Scene scene = new Scene(root, 1000, 700);
+        Scene scene = new Scene(root, 1280, 720);
         scene.getStylesheets().add(
             getClass().getResource("/style.css").toExternalForm()
         );
         stage.setTitle("Library Management System");
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
     }
 
