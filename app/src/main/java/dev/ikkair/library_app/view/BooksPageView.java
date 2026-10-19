@@ -31,7 +31,6 @@ public class BooksPageView extends VBox {
 	public BooksPageView() {
 		Label title = new Label("Books");
 		getStyleClass().add("page");
-
 		this.searchField = new TextField();
 		this.searchField.setPromptText("Cari buku...");
 		this.searchField.getStyleClass().add("search-field");
@@ -46,9 +45,7 @@ public class BooksPageView extends VBox {
 		this.searchColumn.setValue("Judul");
 		this.searchColumn.setPromptText("Cari berdasarkan");
 		this.searchColumn.setMinWidth(130);
-
 		this.searchButton.getStyleClass().add("search-button");
-
 		HBox searchHBox = new HBox(
 				8,
 				searchField,
@@ -57,39 +54,32 @@ public class BooksPageView extends VBox {
 		searchHBox.getStyleClass().add("search-container");
 		this.searchButton.getStyleClass().add("search-button");
 		this.searchStatus = new Label();
-
 		bookData = FXCollections.observableArrayList();
 		bookTable = new TableView<>(bookData);
-
 		TableColumn<Book, String> isbnColumn = new TableColumn<>("ISBN");
 		isbnColumn.setMaxWidth(100);
 		isbnColumn.setSortable(false);
 		isbnColumn.setCellValueFactory(
 				new PropertyValueFactory<>("isbn"));
-
 		TableColumn<Book, String> titleColumn = new TableColumn<>("Judul");
 		titleColumn.setMinWidth(300);
 		titleColumn.setSortable(false);
 		titleColumn.setCellValueFactory(
 				new PropertyValueFactory<>("title"));
-
 		TableColumn<Book, String> authorColumn = new TableColumn<>("Pengarang");
 		authorColumn.setSortable(false);
 		authorColumn.setCellValueFactory(
 				new PropertyValueFactory<>("author"));
-
 		TableColumn<Book, Year> yearColumn = new TableColumn<>("Tahun");
 		yearColumn.setMaxWidth(50);
 		yearColumn.setSortable(false);
 		yearColumn.setStyle("-fx-alignment: CENTER;");
 		yearColumn.setCellValueFactory(
 				new PropertyValueFactory<>("publicationYear"));
-
 		TableColumn<Book, String> publisherColumn = new TableColumn<>("Penerbit");
 		publisherColumn.setSortable(false);
 		publisherColumn.setCellValueFactory(
 				new PropertyValueFactory<>("publisher"));
-
 		bookTable.getColumns().addAll(
 				java.util.List.of(
 						isbnColumn,
@@ -97,25 +87,19 @@ public class BooksPageView extends VBox {
 						authorColumn,
 						yearColumn,
 						publisherColumn));
-
 		bookTable.setColumnResizePolicy(
 				TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
-
 		bookTable.setPlaceholder(
 				new Label("No books found"));
-
 		VBox.setVgrow(bookTable, Priority.ALWAYS);
-
 		previousButton = new Button("Previous");
 		nextButton = new Button("Next");
 		pageLabel = new Label("Page 1 of 1");
-
 		HBox paginationBar = new HBox(
 				12,
 				previousButton,
 				pageLabel,
 				nextButton);
-
 		paginationBar.getStyleClass().add("pagination-bar");
 		paginationBar.setAlignment(javafx.geometry.Pos.CENTER);
 		getChildren().addAll(title, searchHBox, searchStatus, bookTable, paginationBar);
