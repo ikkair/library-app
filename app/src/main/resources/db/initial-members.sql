@@ -1,0 +1,15 @@
+insert into members (name, email, registration_date) values ('Mandi Davidesco', 'mdavidesco0@icio.us', '2026-07-05');
+insert into members (name, email, registration_date) values ('Susann Harriskine', 'sharriskine1@ox.ac.uk', '2026-09-13');
+insert into members (name, email, registration_date) values ('Kile Sheppard', 'ksheppard2@posterous.com', '2026-06-03');
+insert into members (name, email, registration_date) values ('Jeniffer Sapsford', 'jsapsford3@printfriendly.com', '2026-07-19');
+insert into members (name, email, registration_date) values ('Grazia Hussy', 'ghussy4@columbia.edu', '2026-07-01');
+insert into members (name, email, registration_date) values ('Eustace Fitch', 'efitch5@google.com.hk', '2026-07-23');
+insert into members (name, email, registration_date) values ('Sandy Wathall', 'swathall6@sciencedirect.com', '2026-09-20');
+insert into members (name, email, registration_date) values ('Far Aylen', 'faylen7@timesonline.co.uk', '2026-07-21');
+insert into members (name, email, registration_date) values ('Borg Boleyn', 'bboleyn8@mozilla.org', '2026-08-23');
+insert into members (name, email, registration_date) values ('Sidney Elsmere', 'selsmere9@people.com.cn', '2026-07-10');
+insert into members (name, email, registration_date) values ('Alejandro Piner', 'apinera@si.edu', '2026-08-18');
+insert into members (name, email, registration_date) values ('Cheri Miell', 'cmiellb@ft.com', '2026-10-10');
+insert into members (name, email, registration_date) values ('Mahala Tuley', 'mtuleyc@artisteer.com', '2026-07-06');
+insert into members (name, email, registration_date) values ('Carce Cammidge', 'ccammidged@cafepress.com', '2026-09-28');
+insert into members (name, email, registration_date) values ('Stacia Murkus', 'smurkuse@homestead.com', '2026-09-11');

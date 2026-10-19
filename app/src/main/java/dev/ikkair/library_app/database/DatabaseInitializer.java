@@ -2,18 +2,10 @@ package dev.ikkair.library_app.database;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Types;
-
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 
 public class DatabaseInitializer {
 
@@ -26,7 +18,25 @@ public class DatabaseInitializer {
 		executeResource(connection, "/db/schema.sql");
 
 		if (!hasBooks(connection)) {
-			executeResource(connection, "/initial-books.sql");
+			executeResource(connection, "/db/initial-books.sql");
+		}
+
+		if (!hasMembers(connection)) {
+			executeResource(connection, "/db/initial-members.sql");
+		}
+	}
+
+	private static boolean hasMembers(Connection connection)
+			throws SQLException {
+
+		String sql = "SELECT EXISTS (SELECT 1 FROM members)";
+
+		try (
+				Statement statement = connection.createStatement();
+				var resultSet = statement.executeQuery(sql)) {
+
+			resultSet.next();
+			return resultSet.getBoolean(1);
 		}
 	}
 

@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import dev.ikkair.library_app.controller.BooksController;
+import dev.ikkair.library_app.controller.MembersController;
 import dev.ikkair.library_app.controller.SidePanelController;
 import dev.ikkair.library_app.view.BooksPageView;
 import dev.ikkair.library_app.view.BorrowingPageView;
@@ -39,6 +40,8 @@ public class App extends Application {
 
         @SuppressWarnings("unused")
 		BooksController bookController = new BooksController(booksPageView);
+        @SuppressWarnings("unused")
+		MembersController memberController = new MembersController(membersPageView);
         @SuppressWarnings("unused")
 		SidePanelController sidePanelController = new SidePanelController(
         	sidePanel,
