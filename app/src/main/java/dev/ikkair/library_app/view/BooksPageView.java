@@ -7,6 +7,7 @@ import dev.ikkair.library_app.model.Book;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -25,6 +26,7 @@ public class BooksPageView extends VBox {
 	private final Button previousButton;
 	private final Button nextButton;
 	private final Label pageLabel;
+	private final ComboBox<String> searchColumn;
 
 	public BooksPageView() {
 		Label title = new Label("Books");
@@ -34,11 +36,27 @@ public class BooksPageView extends VBox {
 		this.searchField.setPromptText("Cari buku...");
 		this.searchField.getStyleClass().add("search-field");
 		this.searchButton = new Button("Cari");
+		this.searchColumn = new ComboBox<>();
+		this.searchColumn.getItems().addAll(
+				"ISBN",
+				"Judul",
+				"Pengarang",
+				"Tahun",
+				"Penerbit");
+		this.searchColumn.setValue("Judul");
+		this.searchColumn.setPromptText("Cari berdasarkan");
+		this.searchColumn.setMinWidth(130);
+
+		this.searchButton.getStyleClass().add("search-button");
+
+		HBox searchHBox = new HBox(
+				8,
+				searchField,
+				searchColumn,
+				searchButton);
+		searchHBox.getStyleClass().add("search-container");
 		this.searchButton.getStyleClass().add("search-button");
 		this.searchStatus = new Label();
-
-		HBox searchHBox = new HBox(8, searchField, searchButton);
-		searchHBox.getStyleClass().add("search-container");
 
 		bookData = FXCollections.observableArrayList();
 		bookTable = new TableView<>(bookData);
@@ -138,5 +156,9 @@ public class BooksPageView extends VBox {
 				"Page " + (currentPage + 1) + " of " + totalPages);
 		previousButton.setDisable(!hasPrevious);
 		nextButton.setDisable(!hasNext);
+	}
+
+	public ComboBox<String> getSearchColumn() {
+		return searchColumn;
 	}
 }
