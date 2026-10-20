@@ -1,7 +1,7 @@
 package dev.ikkair.library_app.controller;
 
 import dev.ikkair.library_app.view.BooksPageView;
-import dev.ikkair.library_app.view.BorrowingPageView;
+import dev.ikkair.library_app.view.BorrowPageView;
 import dev.ikkair.library_app.view.DashboardPageView;
 import dev.ikkair.library_app.view.MembersPageView;
 import dev.ikkair.library_app.view.SidePanel;
@@ -15,7 +15,7 @@ public class SidePanelController {
 	private final DashboardPageView dashboardPageView;
 	private final BooksPageView booksPageView;
 	private final MembersPageView membersPageView;
-	private final BorrowingPageView borrowingPageView;
+	private final BorrowPageView borrowingPageView;
 	private final PseudoClass ACTIVE = PseudoClass.getPseudoClass("active");
 
 	public SidePanelController(SidePanel view,
@@ -23,7 +23,7 @@ public class SidePanelController {
 		DashboardPageView dashboardPageView,
 		BooksPageView booksPageView,
 		MembersPageView membersPageView,
-		BorrowingPageView borrowingPageView
+		BorrowPageView borrowingPageView
 	){
 		this.sidePanelView = view;
 		this.root = root;

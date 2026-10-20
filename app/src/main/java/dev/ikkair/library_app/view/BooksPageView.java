@@ -1,18 +1,24 @@
 package dev.ikkair.library_app.view;
 
 import java.time.Year;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Consumer;
 
 import dev.ikkair.library_app.model.Book;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.css.PseudoClass;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -27,6 +33,10 @@ public class BooksPageView extends VBox {
 	private final Button nextButton;
 	private final Label pageLabel;
 	private final ComboBox<String> searchColumn;
+	private static final PseudoClass BORROWED = PseudoClass.getPseudoClass("borrowed");
+	private Consumer<Book> onBorrowRequested = book -> {
+	};
+	private final Set<String> borrowedIsbns = new HashSet<>();
 
 	public BooksPageView() {
 		Label title = new Label("Books");
@@ -56,6 +66,26 @@ public class BooksPageView extends VBox {
 		this.searchStatus = new Label();
 		bookData = FXCollections.observableArrayList();
 		bookTable = new TableView<>(bookData);
+		bookTable.setRowFactory(table -> {
+			TableRow<Book> row = new TableRow<>();
+
+			row.setOnMouseClicked(event -> {
+				if (event.getButton() == MouseButton.PRIMARY
+						&& event.getClickCount() == 2
+						&& !row.isEmpty()) {
+
+					Book book = row.getItem();
+
+					if (!borrowedIsbns.contains(book.getIsbn())) {
+						onBorrowRequested.accept(book);
+					}
+				}
+			});
+			row.itemProperty().addListener((observable, oldBook, newBook) -> {
+				updateRowStyle(row, newBook);
+			});
+			return row;
+		});
 		TableColumn<Book, String> isbnColumn = new TableColumn<>("ISBN");
 		isbnColumn.setMaxWidth(100);
 		isbnColumn.setSortable(false);
@@ -81,7 +111,7 @@ public class BooksPageView extends VBox {
 		publisherColumn.setCellValueFactory(
 				new PropertyValueFactory<>("publisher"));
 		bookTable.getColumns().addAll(
-				java.util.List.of(
+				List.of(
 						isbnColumn,
 						titleColumn,
 						authorColumn,
@@ -144,5 +174,21 @@ public class BooksPageView extends VBox {
 
 	public ComboBox<String> getSearchColumn() {
 		return searchColumn;
+	}
+
+	public void setOnBorrowRequested(Consumer<Book> callback) {
+		this.onBorrowRequested = callback;
+	}
+
+	private void updateRowStyle(TableRow<Book> row, Book book) {
+		boolean borrowed = book != null
+				&& borrowedIsbns.contains(book.getIsbn());
+		row.pseudoClassStateChanged(BORROWED, borrowed);
+	}
+
+	public void setBorrowedIsbns(Set<String> isbns) {
+		borrowedIsbns.clear();
+		borrowedIsbns.addAll(isbns);
+		bookTable.refresh();
 	}
 }

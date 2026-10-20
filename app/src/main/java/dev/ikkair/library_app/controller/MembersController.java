@@ -75,7 +75,7 @@ public class MembersController {
 					currentPage > 0,
 					currentPage < totalPages - 1);
 			membersPageView.getSearchStatus().setText(
-					totalMembers + " member(s) found");
+					totalMembers + " anggota ditemukan");
 		} catch (SQLException e) {
 			membersPageView.getSearchStatus().setText(
 					"Failed to load members: " + e.getMessage());

@@ -84,7 +84,7 @@ public class MembersPageView extends VBox {
                             formattedDate);
                 });
         memberTable.getColumns().addAll(
-                java.util.List.of(
+                List.of(
                         idColumn,
                         nameColumn,
                         emailColumn,

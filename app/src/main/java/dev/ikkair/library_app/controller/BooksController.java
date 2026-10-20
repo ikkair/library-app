@@ -5,6 +5,7 @@ import java.util.List;
 
 import dev.ikkair.library_app.model.Book;
 import dev.ikkair.library_app.repository.BookRepository;
+import dev.ikkair.library_app.repository.BorrowRepository;
 import dev.ikkair.library_app.view.BooksPageView;
 
 public class BooksController {
@@ -15,10 +16,12 @@ public class BooksController {
 	private static final int PAGE_SIZE = 50;
 	private int currentPage = 0;
 	private int totalPages = 1;
+	private final BorrowRepository borrowRepository;
 
 	public BooksController(BooksPageView booksPageView) {
 		this.booksPageView = booksPageView;
 		this.bookRepository = new BookRepository();
+		this.borrowRepository = new BorrowRepository();
 		setupPagination();
 		setupSearch();
 		loadPage(0);
@@ -68,6 +71,8 @@ public class BooksController {
 						PAGE_SIZE);
 			}
 			booksPageView.setBooks(books);
+			booksPageView.setBorrowedIsbns(
+					borrowRepository.findActiveBorrowedIsbns());
 			booksPageView.resetTableScroll();
 			booksPageView.setPaginationState(
 					currentPage,
@@ -75,7 +80,7 @@ public class BooksController {
 					currentPage > 0,
 					currentPage < totalPages - 1);
 			booksPageView.getSearchStatus().setText(
-					totalBooks + " book(s) found");
+					totalBooks + " buku ditemukan");
 		} catch (SQLException e) {
 			booksPageView.getSearchStatus().setText(
 					"Failed to load books: " + e.getMessage());
@@ -90,5 +95,21 @@ public class BooksController {
 			loadPage(0);
 		});
 		booksPageView.getSearchField().setOnAction(event -> booksPageView.getSearchButton().fire());
+	}
+
+	public void setOnBorrowRequested(
+			java.util.function.Consumer<Book> callback) {
+		booksPageView.setOnBorrowRequested(callback);
+	}
+
+	public void refreshBorrowedBooks() {
+		try {
+			booksPageView.setBorrowedIsbns(
+					borrowRepository.findActiveBorrowedIsbns());
+		} catch (SQLException e) {
+			booksPageView.getSearchStatus().setText(
+					"Failed to refresh borrowed books: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 }

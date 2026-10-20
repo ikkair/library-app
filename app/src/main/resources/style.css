@@ -29,3 +29,11 @@
 .menu-button:pressed {
     -fx-background-color: #454c57;
 }
+
+.table-row-cell:borrowed {
+    -fx-background-color: #d6d6d6;
+}
+
+.table-row-cell:borrowed .text {
+    -fx-fill: #666666;
+}
