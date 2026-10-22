@@ -195,4 +195,133 @@ public class BorrowRepository {
 		}
 		return borrows;
 	}
+
+	public int countBorrows() throws SQLException {
+		String sql = """
+				SELECT COUNT(*)
+				FROM borrows
+				""";
+		try (
+				Connection connection = Database.connect();
+				PreparedStatement statement = connection.prepareStatement(sql);
+				ResultSet resultSet = statement.executeQuery()) {
+			resultSet.next();
+			return resultSet.getInt(1);
+		}
+	}
+
+	public List<Borrow> findPage(int page, int pageSize)
+			throws SQLException {
+		if (page < 0 || pageSize < 1) {
+			throw new IllegalArgumentException(
+					"Page must be >= 0 and pageSize must be >= 1");
+		}
+		String sql = """
+				SELECT
+				    br.id,
+				    br.member_id,
+				    m.name AS member_name,
+				    br.isbn,
+				    b.title AS book_title,
+				    br.borrow_date,
+				    br.due_date,
+				    br.return_date
+				FROM borrows br
+				JOIN members m ON m.id = br.member_id
+				JOIN books b ON b.isbn = br.isbn
+				ORDER BY br.id DESC
+				LIMIT ? OFFSET ?
+				""";
+		int offset = Math.multiplyExact(page, pageSize);
+		List<Borrow> borrows = new ArrayList<>();
+		try (
+				Connection connection = Database.connect();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setInt(1, pageSize);
+			statement.setInt(2, offset);
+			try (ResultSet resultSet = statement.executeQuery()) {
+				while (resultSet.next()) {
+					borrows.add(mapBorrow(resultSet));
+				}
+			}
+		}
+		return borrows;
+	}
+
+	public int countSearchResults(String column, String query)
+			throws SQLException {
+		String sqlColumn = getSearchColumnSql(column);
+		String sql = """
+				SELECT COUNT(*)
+				FROM borrows br
+				JOIN members m ON m.id = br.member_id
+				JOIN books b ON b.isbn = br.isbn
+				WHERE %s LIKE ? COLLATE NOCASE
+				""".formatted(sqlColumn);
+
+		try (
+				Connection connection = Database.connect();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, "%" + query + "%");
+			try (ResultSet resultSet = statement.executeQuery()) {
+				resultSet.next();
+				return resultSet.getInt(1);
+			}
+		}
+	}
+
+	public List<Borrow> searchPage(
+			String column,
+			String query,
+			int page,
+			int pageSize) throws SQLException {
+		if (page < 0 || pageSize < 1) {
+			throw new IllegalArgumentException(
+					"Page must be >= 0 and pageSize must be >= 1");
+		}
+		String sqlColumn = getSearchColumnSql(column);
+		String sql = """
+				SELECT
+				    br.id,
+				    br.member_id,
+				    m.name AS member_name,
+				    br.isbn,
+				    b.title AS book_title,
+				    br.borrow_date,
+				    br.due_date,
+				    br.return_date
+				FROM borrows br
+				JOIN members m ON m.id = br.member_id
+				JOIN books b ON b.isbn = br.isbn
+				WHERE %s LIKE ? COLLATE NOCASE
+				ORDER BY br.id DESC
+				LIMIT ? OFFSET ?
+				""".formatted(sqlColumn);
+
+		int offset = Math.multiplyExact(page, pageSize);
+		List<Borrow> borrows = new ArrayList<>();
+		try (
+				Connection connection = Database.connect();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, "%" + query + "%");
+			statement.setInt(2, pageSize);
+			statement.setInt(3, offset);
+			try (ResultSet resultSet = statement.executeQuery()) {
+				while (resultSet.next()) {
+					borrows.add(mapBorrow(resultSet));
+				}
+			}
+		}
+		return borrows;
+	}
+
+	private String getSearchColumnSql(String column) {
+		return switch (column) {
+			case "Anggota" -> "m.name";
+			case "Buku" -> "b.title";
+			case "ISBN" -> "br.isbn";
+			default -> throw new IllegalArgumentException(
+					"Unsupported search column: " + column);
+		};
+	}
 }

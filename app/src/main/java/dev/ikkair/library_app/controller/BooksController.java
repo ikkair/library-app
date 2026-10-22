@@ -13,7 +13,7 @@ public class BooksController {
 	private final BookRepository bookRepository;
 	private String activeSearchQuery = "";
 	private String activeSearchColumn = "Judul";
-	private static final int PAGE_SIZE = 50;
+	private static final int PAGE_SIZE = 25;
 	private int currentPage = 0;
 	private int totalPages = 1;
 	private final BorrowRepository borrowRepository;
@@ -33,7 +33,6 @@ public class BooksController {
 				loadPage(currentPage - 1);
 			}
 		});
-
 		booksPageView.getNextButton().setOnAction(event -> {
 			if (currentPage + 1 < totalPages) {
 				loadPage(currentPage + 1);

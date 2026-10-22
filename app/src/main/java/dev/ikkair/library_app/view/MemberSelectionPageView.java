@@ -1,104 +1,233 @@
 package dev.ikkair.library_app.view;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import dev.ikkair.library_app.model.Book;
 import dev.ikkair.library_app.model.Member;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class MemberSelectionPageView extends VBox {
 
-	private final Label bookLabel;
-	private final TableView<Member> memberTable;
-	private final ObservableList<Member> memberData;
-	private final Button confirmButton;
-	private final Button cancelButton;
-	private final Label statusLabel;
+    private final Label bookLabel;
+    private final TableView<Member> memberTable;
+    private final ObservableList<Member> memberData;
+    private final TextField searchField;
+    private final ComboBox<String> searchColumn;
+    private final Button searchButton;
+    private final Label statusLabel;
+    private final Button confirmButton;
+    private final Button cancelButton;
+    private final Button previousButton;
+    private final Button nextButton;
+    private final Label pageLabel;
+    private static final DateTimeFormatter DATE_FORMAT =
+            DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    public MemberSelectionPageView() {
+        getStyleClass().add("page");
+        setSpacing(12);
+        Label title = new Label("Pilih Anggota");
+        title.getStyleClass().add("page-title");
+        Label subtitle = new Label(
+                "Pilih anggota yang akan meminjam buku");
+        subtitle.getStyleClass().add("page-subtitle");
+        VBox titleText = new VBox(4, title, subtitle);
+        VBox header = new VBox(titleText);
+        header.getStyleClass().add("page-header");
+        header.setAlignment(Pos.CENTER_LEFT);
+        bookLabel = new Label("Belum ada buku yang dipilih");
+        bookLabel.getStyleClass().add("selection-book-label");
+        bookLabel.setWrapText(true);
+        searchField = new TextField();
+        searchField.setPromptText("Cari anggota...");
+        searchField.getStyleClass().add("search-field");
+        HBox.setHgrow(searchField, Priority.ALWAYS);
+        searchField.setMaxWidth(Double.MAX_VALUE);
+        searchColumn = new ComboBox<>();
+        searchColumn.getItems().addAll(
+                "ID",
+                "Nama",
+                "Email",
+                "Tanggal Registrasi");
+        searchColumn.setValue("Nama");
+        searchColumn.setMinWidth(160);
+        searchButton = new Button("Cari");
+        searchButton.getStyleClass().add("search-button");
+        HBox searchBar = new HBox(
+                10,
+                searchField,
+                searchColumn,
+                searchButton);
+        searchBar.setAlignment(Pos.CENTER_LEFT);
+        searchBar.getStyleClass().add("search-container");
+        memberData = FXCollections.observableArrayList();
+        memberTable = new TableView<>(memberData);
+        TableColumn<Member, Integer> idColumn =
+                new TableColumn<>("ID");
+        idColumn.setMinWidth(70);
+        idColumn.setMaxWidth(90);
+        idColumn.setCellValueFactory(
+                new PropertyValueFactory<>("id"));
+        TableColumn<Member, String> nameColumn =
+                new TableColumn<>("Nama");
+        nameColumn.setMinWidth(180);
+        nameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("name"));
+        TableColumn<Member, String> emailColumn =
+                new TableColumn<>("Email");
+        emailColumn.setMinWidth(200);
+        emailColumn.setCellValueFactory(
+                new PropertyValueFactory<>("email"));
+        TableColumn<Member, String> registrationDateColumn =
+                new TableColumn<>("Tanggal Registrasi");
+        registrationDateColumn.setMinWidth(150);
+        registrationDateColumn.setCellValueFactory(cellData -> {
+            LocalDate date =
+                    cellData.getValue().getRegistrationDate();
+            String formattedDate = date == null
+                    ? ""
+                    : date.format(DATE_FORMAT);
+            return new SimpleStringProperty(formattedDate);
+        });
+        memberTable.getColumns().addAll(
+                List.of(
+                        idColumn,
+                        nameColumn,
+                        emailColumn,
+                        registrationDateColumn));
+        memberTable.setColumnResizePolicy(
+                TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+        memberTable.setPlaceholder(
+                new Label("Tidak ada anggota ditemukan"));
+        VBox.setVgrow(memberTable, Priority.ALWAYS);
+        statusLabel = new Label();
+        statusLabel.getStyleClass().add("search-status");
+        statusLabel.setWrapText(true);
+        previousButton = new Button("Sebelumnya");
+        nextButton = new Button("Berikutnya");
+        pageLabel = new Label("Halaman 1 dari 1");
+        HBox paginationBar = new HBox(
+                12,
+                previousButton,
+                pageLabel,
+                nextButton);
+        paginationBar.setAlignment(Pos.CENTER);
+        paginationBar.getStyleClass().add("pagination-bar");
+        confirmButton = new Button("Konfirmasi Peminjaman");
+        confirmButton.getStyleClass().add("primary-button");
+        cancelButton = new Button("Batal");
+        cancelButton.getStyleClass().add("secondary-button");
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        HBox actions = new HBox(
+                10,
+                cancelButton,
+                spacer,
+                confirmButton);
+        actions.setAlignment(Pos.CENTER_LEFT);
+        actions.setMaxWidth(Double.MAX_VALUE);
+        actions.getStyleClass().add("form-actions");
+        getChildren().addAll(
+                header,
+                bookLabel,
+                searchBar,
+                statusLabel,
+                memberTable,
+                paginationBar,
+                actions);
+    }
 
-	public MemberSelectionPageView() {
-		getStyleClass().add("page");
+    public void setBook(Book book) {
+        if (book == null) {
+            bookLabel.setText("Belum ada buku yang dipilih");
+            return;
+        }
+        bookLabel.setText(
+                "Buku yang dipinjam: "
+                        + book.getTitle()
+                        + " (ISBN: " + book.getIsbn() + ")");
+    }
 
-		Label title = new Label("Select Member");
+    public void setMembers(List<Member> members) {
+        memberData.setAll(members);
+    }
 
-		bookLabel = new Label("No book selected");
+    public Member getSelectedMember() {
+        return memberTable.getSelectionModel()
+                .getSelectedItem();
+    }
 
-		memberData = FXCollections.observableArrayList();
-		memberTable = new TableView<>(memberData);
+    public void resetTableScroll() {
+        memberTable.scrollTo(0);
+    }
 
-		TableColumn<Member, Integer> idColumn = new TableColumn<>("ID");
-		idColumn.setCellValueFactory(
-				new PropertyValueFactory<>("id"));
+    public void setPaginationState(
+            int currentPage,
+            int totalPages,
+            boolean hasPrevious,
+            boolean hasNext) {
+        pageLabel.setText(
+                "Halaman " + currentPage + " dari " + totalPages);
+        previousButton.setDisable(!hasPrevious);
+        nextButton.setDisable(!hasNext);
+    }
 
-		TableColumn<Member, String> nameColumn = new TableColumn<>("Nama");
-		nameColumn.setMinWidth(200);
-		nameColumn.setCellValueFactory(
-				new PropertyValueFactory<>("name"));
+    public Label getBookLabel() {
+        return bookLabel;
+    }
 
-		TableColumn<Member, String> emailColumn = new TableColumn<>("Email");
-		emailColumn.setMinWidth(250);
-		emailColumn.setCellValueFactory(
-				new PropertyValueFactory<>("email"));
+    public TableView<Member> getMemberTable() {
+        return memberTable;
+    }
 
-		memberTable.getColumns().addAll(
-				List.of(idColumn, nameColumn, emailColumn));
+    public TextField getSearchField() {
+        return searchField;
+    }
 
-		memberTable.setColumnResizePolicy(
-				TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+    public ComboBox<String> getSearchColumn() {
+        return searchColumn;
+    }
 
-		memberTable.setPlaceholder(
-				new Label("Tidak ada anggota ditemukan"));
+    public Button getSearchButton() {
+        return searchButton;
+    }
 
-		VBox.setVgrow(memberTable, Priority.ALWAYS);
+    public Label getStatusLabel() {
+        return statusLabel;
+    }
 
-		statusLabel = new Label();
+    public Label getSearchStatus() {
+        return statusLabel;
+    }
 
-		confirmButton = new Button("Confirm Borrow");
-		cancelButton = new Button("Cancel");
+    public Button getConfirmButton() {
+        return confirmButton;
+    }
 
-		javafx.scene.layout.HBox actions = new javafx.scene.layout.HBox(
-				8, cancelButton, confirmButton);
+    public Button getCancelButton() {
+        return cancelButton;
+    }
 
-		actions.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+    public Button getPreviousButton() {
+        return previousButton;
+    }
 
-		getChildren().addAll(
-				title,
-				bookLabel,
-				memberTable,
-				statusLabel,
-				actions);
-	}
-
-	public void setBook(Book book) {
-		bookLabel.setText(
-				"Book: " + book.getTitle()
-						+ " (ISBN: " + book.getIsbn() + ")");
-	}
-
-	public void setMembers(List<Member> members) {
-		memberData.setAll(members);
-	}
-
-	public Member getSelectedMember() {
-		return memberTable.getSelectionModel().getSelectedItem();
-	}
-
-	public Button getConfirmButton() {
-		return confirmButton;
-	}
-
-	public Button getCancelButton() {
-		return cancelButton;
-	}
-
-	public Label getStatusLabel() {
-		return statusLabel;
-	}
+    public Button getNextButton() {
+        return nextButton;
+    }
 }

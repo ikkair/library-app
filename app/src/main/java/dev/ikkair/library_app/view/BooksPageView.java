@@ -41,18 +41,22 @@ public class BooksPageView extends VBox {
 
 	public BooksPageView() {
 		getStyleClass().add("page");
-		Label title = new Label("Books");
+		Label title = new Label("Buku");
+		title.getStyleClass().add("page-title");
+		Label subtitle = new Label("Kelola koleksi buku perpustakaan Anda");
+		subtitle.getStyleClass().add("page-subtitle");
+		VBox titleText = new VBox(4, title, subtitle);
 		addBookButton = new Button("Tambah Buku");
-		addBookButton.getStyleClass().add("search-button");
-		HBox titleBar = new HBox(12, title, addBookButton);
+		addBookButton.getStyleClass().add("primary-button");
+		HBox titleBar = new HBox(16, titleText, addBookButton);
+		titleBar.getStyleClass().add("page-header");
 		titleBar.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-		HBox.setHgrow(title, javafx.scene.layout.Priority.ALWAYS);
-		title.setMaxWidth(Double.MAX_VALUE);
-		titleBar.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+		HBox.setHgrow(titleText, Priority.ALWAYS);
 		this.searchField = new TextField();
 		this.searchField.setPromptText("Cari buku...");
 		this.searchField.getStyleClass().add("search-field");
-		this.searchButton = new Button("Cari");
+		searchField.setMaxWidth(Double.MAX_VALUE);
+		HBox.setHgrow(searchField, Priority.ALWAYS);
 		this.searchColumn = new ComboBox<>();
 		this.searchColumn.getItems().addAll(
 				"ISBN",
@@ -62,7 +66,8 @@ public class BooksPageView extends VBox {
 				"Penerbit");
 		this.searchColumn.setValue("Judul");
 		this.searchColumn.setPromptText("Cari berdasarkan");
-		this.searchColumn.setMinWidth(130);
+		this.searchColumn.setMinWidth(160);
+		this.searchButton = new Button("Cari");
 		this.searchButton.getStyleClass().add("search-button");
 		HBox searchHBox = new HBox(
 				8,
@@ -100,7 +105,8 @@ public class BooksPageView extends VBox {
 		isbnColumn.setCellValueFactory(
 				new PropertyValueFactory<>("isbn"));
 		TableColumn<Book, String> titleColumn = new TableColumn<>("Judul");
-		titleColumn.setMinWidth(300);
+		titleColumn.setMinWidth(200);
+		titleColumn.setPrefWidth(350);
 		titleColumn.setSortable(false);
 		titleColumn.setCellValueFactory(
 				new PropertyValueFactory<>("title"));
@@ -109,9 +115,11 @@ public class BooksPageView extends VBox {
 		authorColumn.setCellValueFactory(
 				new PropertyValueFactory<>("author"));
 		TableColumn<Book, Year> yearColumn = new TableColumn<>("Tahun");
-		yearColumn.setMaxWidth(50);
+		yearColumn.setMaxWidth(100);
+		yearColumn.setPrefWidth(100);
+		yearColumn.setMinWidth(90);
 		yearColumn.setSortable(false);
-		yearColumn.setStyle("-fx-alignment: CENTER;");
+		yearColumn.setStyle("-fx-alignment: CENTER_LEFT;");
 		yearColumn.setCellValueFactory(
 				new PropertyValueFactory<>("publicationYear"));
 		TableColumn<Book, String> publisherColumn = new TableColumn<>("Penerbit");
@@ -128,10 +136,10 @@ public class BooksPageView extends VBox {
 		bookTable.setColumnResizePolicy(
 				TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 		bookTable.setPlaceholder(
-				new Label("No books found"));
+				new Label("Tidak ada buku ditemukan"));
 		VBox.setVgrow(bookTable, Priority.ALWAYS);
-		previousButton = new Button("Previous");
-		nextButton = new Button("Next");
+		previousButton = new Button("Sebelumnya");
+		nextButton = new Button("Berikutnya");
 		pageLabel = new Label("Page 1 of 1");
 		HBox paginationBar = new HBox(
 				12,

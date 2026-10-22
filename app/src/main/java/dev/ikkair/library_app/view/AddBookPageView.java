@@ -6,9 +6,12 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class AddBookPageView extends VBox {
+
     private final TextField isbnField;
     private final TextField titleField;
     private final TextField authorField;
@@ -21,48 +24,84 @@ public class AddBookPageView extends VBox {
 
     public AddBookPageView() {
         getStyleClass().add("page");
-        setSpacing(12);
+        setSpacing(16);
 
+        // Header
         Label title = new Label("Tambah Buku");
+        title.getStyleClass().add("page-title");
 
-        isbnField = new TextField();
-        isbnField.setPromptText("ISBN (wajib)");
+        Label subtitle = new Label(
+                "Tambahkan buku baru ke koleksi perpustakaan");
 
-        titleField = new TextField();
-        titleField.setPromptText("Judul buku (wajib)");
+        subtitle.getStyleClass().add("page-subtitle");
 
-        authorField = new TextField();
-        authorField.setPromptText("Pengarang (opsional)");
+        VBox titleText = new VBox(4, title, subtitle);
+
+        VBox header = new VBox(titleText);
+        header.getStyleClass().add("page-header");
+        header.setAlignment(Pos.CENTER_LEFT);
+
+        // Form fields
+        isbnField = createTextField("Masukkan ISBN");
+        titleField = createTextField("Masukkan judul buku");
+        authorField = createTextField("Masukkan nama pengarang");
+        publisherField = createTextField("Masukkan nama penerbit");
 
         publicationDatePicker = new DatePicker();
         publicationDatePicker.setPromptText("Pilih tanggal terbit");
         publicationDatePicker.setMaxWidth(Double.MAX_VALUE);
         publicationDatePicker.setEditable(false);
-        publisherField = new TextField();
-        publisherField.setPromptText("Penerbit (opsional)");
+        publicationDatePicker.getStyleClass().add("form-date-picker");
 
-        saveButton = new Button("Simpan");
+        VBox form = new VBox(14);
+        form.getStyleClass().add("book-form");
+
+        form.getChildren().addAll(
+                createField("ISBN", isbnField),
+                createField("Judul Buku", titleField),
+                createField("Pengarang", authorField),
+                createField("Tanggal Terbit", publicationDatePicker),
+                createField("Penerbit", publisherField));
+        saveButton = new Button("Simpan Buku");
+        saveButton.getStyleClass().add("primary-button");
         cancelButton = new Button("Batal");
+        cancelButton.getStyleClass().add("secondary-button");
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        HBox buttons = new HBox(10, cancelButton, spacer, saveButton);
+        buttons.setMaxWidth(Double.MAX_VALUE);
+        buttons.getStyleClass().add("form-actions");
 
-        HBox buttons = new HBox(8, saveButton, cancelButton);
-        buttons.setAlignment(Pos.CENTER_LEFT);
-
+        // Status message
         statusLabel = new Label();
+        statusLabel.getStyleClass().add("search-status");
+        statusLabel.setWrapText(true);
 
         getChildren().addAll(
-                title,
-                new Label("ISBN"),
-                isbnField,
-                new Label("Judul"),
-                titleField,
-                new Label("Pengarang"),
-                authorField,
-                new Label("Tahun Terbit"),
-                publicationDatePicker,
-                new Label("Penerbit"),
-                publisherField,
+                header,
+                form,
                 buttons,
                 statusLabel);
+    }
+
+    private TextField createTextField(String prompt) {
+        TextField field = new TextField();
+        field.setPromptText(prompt);
+        field.getStyleClass().add("form-field");
+        field.setMaxWidth(Double.MAX_VALUE);
+        return field;
+    }
+
+    private VBox createField(String labelText,
+            javafx.scene.Node input) {
+        Label label = new Label(labelText);
+        label.getStyleClass().add("form-label");
+
+        VBox fieldBox = new VBox(6, label, input);
+        fieldBox.getStyleClass().add("form-field-container");
+
+        VBox.setVgrow(input, Priority.NEVER);
+        return fieldBox;
     }
 
     public TextField getIsbnField() {

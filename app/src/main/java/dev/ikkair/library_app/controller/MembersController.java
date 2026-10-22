@@ -13,7 +13,7 @@ public class MembersController {
 	private final MemberRepository memberRepository;
 	private String activeSearchQuery = "";
 	private String activeSearchColumn = "Nama";
-	private static final int PAGE_SIZE = 50;
+	private static final int PAGE_SIZE = 25;
 	private int currentPage = 0;
 	private int totalPages = 1;
 

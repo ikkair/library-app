@@ -1,7 +1,7 @@
 .page {
-    -fx-background-color: #f8fafc;
+    -fx-background-color: #F7F2EF;
     -fx-padding: 20px;
-    -fx-spacing: 18px;
+    -fx-spacing: 12px;
 }
 
 .sidebar {
@@ -30,10 +30,385 @@
     -fx-background-color: #454c57;
 }
 
-.table-row-cell:borrowed {
-    -fx-background-color: #d6d6d6;
+/* Borrowed books */
+.table-view .table-row-cell:borrowed {
+    -fx-background-color: #D6D6D6;
 }
 
-.table-row-cell:borrowed .text {
+.table-view .table-row-cell:borrowed .text {
     -fx-fill: #666666;
+}
+
+/* Borrowed row when hovered */
+.table-view .table-row-cell:borrowed:hover {
+    -fx-background-color: #C8C8C8;
+}
+
+/* Borrowed row when selected */
+.table-view .table-row-cell:borrowed:selected {
+    -fx-background-color: #BDBDBD;
+}
+
+.page-header {
+    -fx-background-color: #F7F2EF;
+    -fx-padding: 14px 24px 14px 20px;
+    -fx-background-radius: 12px;
+    -fx-border-color: transparent transparent #E5D7D5 transparent;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.page-title {
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #38262B;
+}
+
+.page-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #806F70;
+}
+
+.primary-button {
+    -fx-background-color: #643A43;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-padding: 11 18 11 18;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: #784954;
+}
+
+.primary-button:pressed {
+    -fx-background-color: #4E2C34;
+}
+
+/* Search bar container */
+.search-container {
+    -fx-background-color: #F7F2EF;
+    -fx-padding: 6px 0;
+    -fx-spacing: 10px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* Search text field */
+.search-field {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #38262B;
+    -fx-prompt-text-fill: #A39394;
+    -fx-font-size: 14px;
+    -fx-padding: 11px 14px;
+    -fx-background-radius: 8px;
+    -fx-border-color: #E5D7D5;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+}
+
+.search-field:focused {
+    -fx-border-color: #643A43;
+    -fx-border-width: 1.5px;
+    -fx-background-color: #FFFFFF;
+}
+
+
+/* Search column dropdown */
+.search-container .combo-box {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8px;
+    -fx-border-color: #E5D7D5;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-font-size: 14px;
+    -fx-padding: 0;
+}
+
+/* Selected value area */
+.search-container .combo-box .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #38262B;
+    -fx-padding: 10px 12px;
+}
+
+/* Arrow button area */
+.search-container .combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0 8px 8px 0;
+}
+
+/* Dropdown arrow */
+.search-container .combo-box .arrow {
+    -fx-background-color: #806F70;
+}
+
+/* Hover and focus states */
+.search-container .combo-box:hover {
+    -fx-border-color: #B99DA1;
+}
+
+.search-container .combo-box:focused {
+    -fx-border-color: #643A43;
+}
+
+/* Items in the opened dropdown */
+.search-container .combo-box-popup .list-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E5D7D5;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+}
+
+.search-container .combo-box-popup .list-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #38262B;
+    -fx-padding: 9px 12px;
+}
+
+.search-container .combo-box-popup .list-cell:hover {
+    -fx-background-color: #F7F2EF;
+}
+
+.search-container .combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: #643A43;
+    -fx-text-fill: #FFFFFF;
+}
+
+/* Search button */
+.search-button {
+    -fx-background-color: #643A43;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 11px 20px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+
+.search-button:hover {
+    -fx-background-color: #784954;
+}
+
+.search-button:pressed {
+    -fx-background-color: #4E2C34;
+}
+
+/* Table container */
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8px;
+    -fx-border-color: #E5D7D5;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-padding: 0;
+}
+
+/* Column headers */
+.table-view .column-header-background {
+    -fx-background-color: #EFE5E2;
+    -fx-background-radius: 8px 8px 0 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 42px;
+    -fx-border-color: transparent transparent #E5D7D5 transparent;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #38262B;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 12px;
+}
+
+/* Table rows */
+.table-view .table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent transparent #F0E8E5 transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-cell-size: 44px;
+}
+
+/* Alternate rows */
+.table-view .table-row-cell:odd {
+    -fx-background-color: #FCF9F7;
+}
+
+/* Hovered row */
+.table-view .table-row-cell:hover {
+    -fx-background-color: #F7F2EF;
+}
+
+/* Selected row */
+.table-view .table-row-cell:selected {
+    -fx-background-color: #EADADD;
+}
+
+.table-view .table-row-cell:selected .text {
+    -fx-fill: #38262B;
+}
+
+/* Table cell text */
+.table-view .table-cell {
+    -fx-text-fill: #38262B;
+    -fx-font-size: 13px;
+    -fx-padding: 0 12px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-color: transparent;
+}
+
+/* Focus outline */
+.table-view:focused .table-row-cell:filled:selected {
+    -fx-background-color: #EADADD;
+}
+
+/* Empty table message */
+.table-view .placeholder .label {
+    -fx-text-fill: #806F70;
+    -fx-font-size: 14px;
+}
+
+/* Remove the empty filler area's default gray background */
+.table-view .virtual-flow .clipped-container .sheet {
+    -fx-background-color: #FFFFFF;
+}
+
+.pagination-bar {
+    -fx-alignment: CENTER;
+    -fx-spacing: 12px;
+    -fx-padding: 8px 0;
+}
+
+.pagination-bar .button {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #643A43;
+    -fx-border-color: #E5D7D5;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 14px;
+    -fx-cursor: hand;
+}
+
+.pagination-bar .button:hover {
+    -fx-background-color: #EFE5E2;
+}
+
+.pagination-bar .button:disabled {
+    -fx-opacity: 0.45;
+    -fx-cursor: default;
+}
+
+.pagination-bar .label {
+    -fx-text-fill: #806F70;
+    -fx-font-size: 13px;
+}
+
+.search-status {
+    -fx-text-fill: #806F70;
+    -fx-font-size: 12px;
+}
+
+/* Add Book form */
+.book-form {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 24px;
+    -fx-spacing: 16px;
+    -fx-background-radius: 12px;
+    -fx-border-color: #E5D7D5;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12px;
+    -fx-max-width: Infinity;
+}
+
+.form-field-container {
+    -fx-spacing: 6px;
+}
+
+.form-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #38262B;
+}
+
+.form-field {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #38262B;
+    -fx-prompt-text-fill: #A39394;
+    -fx-font-size: 14px;
+    -fx-padding: 11px 14px;
+    -fx-background-radius: 8px;
+    -fx-border-color: #E5D7D5;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+}
+
+.form-field:focused {
+    -fx-border-color: #643A43;
+    -fx-border-width: 1.5px;
+}
+
+.form-date-picker {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8px;
+    -fx-border-color: #E5D7D5;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-font-size: 14px;
+}
+
+.form-date-picker .text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: #38262B;
+    -fx-prompt-text-fill: #A39394;
+    -fx-padding: 11px 14px;
+    -fx-background-radius: 8px 0 0 8px;
+}
+
+.form-date-picker:focused {
+    -fx-border-color: #643A43;
+}
+
+.form-date-picker .arrow-button {
+    -fx-background-color: #EFE5E2;
+    -fx-background-radius: 0 7px 7px 0;
+}
+
+.form-date-picker .arrow-button .arrow {
+    -fx-background-color: #643A43;
+}
+
+.form-actions {
+    -fx-padding: 4px 0;
+}
+
+.secondary-button {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #643A43;
+    -fx-font-weight: bold;
+    -fx-padding: 11px 18px;
+    -fx-background-radius: 8px;
+    -fx-border-color: #E5D7D5;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-cursor: hand;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #EFE5E2;
+}
+
+.secondary-button:pressed {
+    -fx-background-color: #E5D7D5;
+}
+
+.selection-book-label {
+    -fx-background-color: #EFE5E2;
+    -fx-text-fill: #38262B;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 12px 16px;
+    -fx-background-radius: 8px;
 }

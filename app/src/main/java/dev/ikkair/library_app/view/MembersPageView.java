@@ -20,147 +20,153 @@ import javafx.scene.layout.VBox;
 
 public class MembersPageView extends VBox {
 
-    private final TextField searchField;
-    private final Button searchButton;
-    private final Label searchStatus;
-    private final TableView<Member> memberTable;
-    private final ObservableList<Member> memberData;
-    private final Button previousButton;
-    private final Button nextButton;
-    private final Label pageLabel;
-    private final ComboBox<String> searchColumn;
-    private final Button addMemberButton;
+	private final TextField searchField;
+	private final Button searchButton;
+	private final Label searchStatus;
+	private final TableView<Member> memberTable;
+	private final ObservableList<Member> memberData;
+	private final Button previousButton;
+	private final Button nextButton;
+	private final Label pageLabel;
+	private final ComboBox<String> searchColumn;
+	private final Button addMemberButton;
 
-    public MembersPageView() {
-        Label title = new Label("Members");
-        getStyleClass().add("page");
-        addMemberButton = new Button("Tambah Member");
-        addMemberButton.getStyleClass().add("search-button");
-        HBox titleBar = new HBox(12, title, addMemberButton);
-        titleBar.setAlignment(Pos.CENTER_LEFT);
-        HBox.setHgrow(title, Priority.ALWAYS);
-        title.setMaxWidth(Double.MAX_VALUE);
-        searchField = new TextField();
-        searchField.setPromptText("Cari anggota...");
-        searchField.getStyleClass().add("search-field");
-        searchColumn = new ComboBox<>();
-        searchColumn.getItems().addAll(
-                "ID",
-                "Nama",
-                "Email",
-                "Tanggal Registrasi");
-        searchColumn.setValue("Nama");
-        searchColumn.setMinWidth(160);
-        searchButton = new Button("Cari");
-        searchButton.getStyleClass().add("search-button");
-        searchStatus = new Label();
-        HBox searchHBox = new HBox(
-                8,
-                searchField,
-                searchColumn,
-                searchButton);
-        searchHBox.getStyleClass().add("search-container");
-        memberData = FXCollections.observableArrayList();
-        memberTable = new TableView<>(memberData);
-        TableColumn<Member, Integer> idColumn = new TableColumn<>("ID");
-        idColumn.setMaxWidth(80);
-        idColumn.setSortable(false);
-        idColumn.setCellValueFactory(
-                new PropertyValueFactory<>("id"));
-        TableColumn<Member, String> nameColumn = new TableColumn<>("Nama");
-        nameColumn.setMinWidth(200);
-        nameColumn.setSortable(false);
-        nameColumn.setCellValueFactory(
-                new PropertyValueFactory<>("name"));
-        TableColumn<Member, String> emailColumn = new TableColumn<>("Email");
-        emailColumn.setMinWidth(250);
-        emailColumn.setSortable(false);
-        emailColumn.setCellValueFactory(
-                new PropertyValueFactory<>("email"));
-        TableColumn<Member, String> registrationDateColumn = new TableColumn<>("Tanggal Registrasi");
-        registrationDateColumn.setSortable(false);
-        registrationDateColumn.setCellValueFactory(
-                cellData -> {
-                    var date = cellData.getValue()
-                            .getRegistrationDate();
-                    String formattedDate = date == null
-                            ? ""
-                            : date.format(
-                                    DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-                    return new javafx.beans.property.SimpleStringProperty(
-                            formattedDate);
-                });
-        memberTable.getColumns().addAll(
-                List.of(
-                        idColumn,
-                        nameColumn,
-                        emailColumn,
-                        registrationDateColumn));
-        memberTable.setColumnResizePolicy(
-                TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
-        memberTable.setPlaceholder(
-                new Label("Tidak ada anggota ditemukan"));
-        VBox.setVgrow(memberTable, Priority.ALWAYS);
-        previousButton = new Button("Previous");
-        nextButton = new Button("Next");
-        pageLabel = new Label("Page 1 of 1");
-        HBox paginationBar = new HBox(
-                12, previousButton, pageLabel, nextButton);
-        paginationBar.getStyleClass().add("pagination-bar");
-        paginationBar.setAlignment(Pos.CENTER);
-        getChildren().addAll(
-                titleBar,
-                searchHBox,
-                searchStatus,
-                memberTable,
-                paginationBar);
-    }
+	public MembersPageView() {
+		getStyleClass().add("page");
+		Label title = new Label("Anggota");
+		title.getStyleClass().add("page-title");
+		Label subtitle = new Label("Kelola anggota perpustakaan anda");
+		subtitle.getStyleClass().add("page-subtitle");
+		VBox titleText = new VBox(4, title, subtitle);
+		addMemberButton = new Button("Tambah Anggota");
+		addMemberButton.getStyleClass().add("primary-button");
+		HBox titleBar = new HBox(16, titleText, addMemberButton);
+		titleBar.getStyleClass().add("page-header");
+		titleBar.setAlignment(Pos.CENTER_LEFT);
+		HBox.setHgrow(titleText, Priority.ALWAYS);
+		searchField = new TextField();
+		searchField.setPromptText("Cari anggota...");
+		searchField.getStyleClass().add("search-field");
+		HBox.setHgrow(searchField, Priority.ALWAYS);
+		searchField.setMaxWidth(Double.MAX_VALUE);
+		searchColumn = new ComboBox<>();
+		searchColumn.getItems().addAll(
+				"ID",
+				"Nama",
+				"Email",
+				"Tanggal Registrasi");
+		searchColumn.setValue("Nama");
+		searchColumn.setMinWidth(160);
+		searchButton = new Button("Cari");
+		searchButton.getStyleClass().add("search-button");
+		searchStatus = new Label();
+		HBox searchHBox = new HBox(
+				8,
+				searchField,
+				searchColumn,
+				searchButton);
+		searchHBox.getStyleClass().add("search-container");
+		memberData = FXCollections.observableArrayList();
+		memberTable = new TableView<>(memberData);
+		TableColumn<Member, Integer> idColumn = new TableColumn<>("ID");
+		idColumn.setMaxWidth(80);
+		idColumn.setSortable(false);
+		idColumn.setCellValueFactory(
+				new PropertyValueFactory<>("id"));
+		TableColumn<Member, String> nameColumn = new TableColumn<>("Nama");
+		nameColumn.setMinWidth(200);
+		nameColumn.setSortable(false);
+		nameColumn.setCellValueFactory(
+				new PropertyValueFactory<>("name"));
+		TableColumn<Member, String> emailColumn = new TableColumn<>("Email");
+		emailColumn.setMinWidth(250);
+		emailColumn.setSortable(false);
+		emailColumn.setCellValueFactory(
+				new PropertyValueFactory<>("email"));
+		TableColumn<Member, String> registrationDateColumn = new TableColumn<>("Tanggal Registrasi");
+		registrationDateColumn.setSortable(false);
+		registrationDateColumn.setCellValueFactory(
+				cellData -> {
+					var date = cellData.getValue()
+							.getRegistrationDate();
+					String formattedDate = date == null
+							? ""
+							: date.format(
+									DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+					return new javafx.beans.property.SimpleStringProperty(
+							formattedDate);
+				});
+		memberTable.getColumns().addAll(
+				List.of(
+						idColumn,
+						nameColumn,
+						emailColumn,
+						registrationDateColumn));
+		memberTable.setColumnResizePolicy(
+				TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+		memberTable.setPlaceholder(
+				new Label("Tidak ada anggota ditemukan"));
+		VBox.setVgrow(memberTable, Priority.ALWAYS);
+		previousButton = new Button("Sebelumnya");
+		nextButton = new Button("Berikutnya");
+		pageLabel = new Label("Page 1 of 1");
+		HBox paginationBar = new HBox(
+				12, previousButton, pageLabel, nextButton);
+		paginationBar.getStyleClass().add("pagination-bar");
+		paginationBar.setAlignment(Pos.CENTER);
+		getChildren().addAll(
+				titleBar,
+				searchHBox,
+				searchStatus,
+				memberTable,
+				paginationBar);
+	}
 
-    public void setMembers(List<Member> members) {
-        memberData.setAll(members);
-    }
+	public void setMembers(List<Member> members) {
+		memberData.setAll(members);
+	}
 
-    public void resetTableScroll() {
-        memberTable.scrollTo(0);
-    }
+	public void resetTableScroll() {
+		memberTable.scrollTo(0);
+	}
 
-    public TextField getSearchField() {
-        return searchField;
-    }
+	public TextField getSearchField() {
+		return searchField;
+	}
 
-    public Button getSearchButton() {
-        return searchButton;
-    }
+	public Button getSearchButton() {
+		return searchButton;
+	}
 
-    public Label getSearchStatus() {
-        return searchStatus;
-    }
+	public Label getSearchStatus() {
+		return searchStatus;
+	}
 
-    public Button getPreviousButton() {
-        return previousButton;
-    }
+	public Button getPreviousButton() {
+		return previousButton;
+	}
 
-    public Button getNextButton() {
-        return nextButton;
-    }
+	public Button getNextButton() {
+		return nextButton;
+	}
 
-    public void setPaginationState(
-            int currentPage,
-            int totalPages,
-            boolean hasPrevious,
-            boolean hasNext) {
-        pageLabel.setText(
-                "Page " + (currentPage + 1) + " of " + totalPages);
+	public void setPaginationState(
+			int currentPage,
+			int totalPages,
+			boolean hasPrevious,
+			boolean hasNext) {
+		pageLabel.setText(
+				"Page " + (currentPage + 1) + " of " + totalPages);
 
-        previousButton.setDisable(!hasPrevious);
-        nextButton.setDisable(!hasNext);
-    }
+		previousButton.setDisable(!hasPrevious);
+		nextButton.setDisable(!hasNext);
+	}
 
-    public ComboBox<String> getSearchColumn() {
-        return searchColumn;
-    }
+	public ComboBox<String> getSearchColumn() {
+		return searchColumn;
+	}
 
-    public Button getAddMemberButton() {
-        return addMemberButton;
-    }
+	public Button getAddMemberButton() {
+		return addMemberButton;
+	}
 }
