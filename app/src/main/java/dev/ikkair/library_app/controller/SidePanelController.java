@@ -2,7 +2,6 @@ package dev.ikkair.library_app.controller;
 
 import dev.ikkair.library_app.view.BooksPageView;
 import dev.ikkair.library_app.view.BorrowPageView;
-import dev.ikkair.library_app.view.DashboardPageView;
 import dev.ikkair.library_app.view.MembersPageView;
 import dev.ikkair.library_app.view.SidePanel;
 import javafx.css.PseudoClass;
@@ -12,32 +11,29 @@ import javafx.scene.layout.BorderPane;
 public class SidePanelController {
 	private final SidePanel sidePanelView;
 	private final BorderPane root;
-	private final DashboardPageView dashboardPageView;
 	private final BooksPageView booksPageView;
 	private final MembersPageView membersPageView;
 	private final BorrowPageView borrowingPageView;
 	private final PseudoClass ACTIVE = PseudoClass.getPseudoClass("active");
 
-	public SidePanelController(SidePanel view,
+	public SidePanelController(
+		SidePanel view,
 		BorderPane root,
-		DashboardPageView dashboardPageView,
 		BooksPageView booksPageView,
 		MembersPageView membersPageView,
 		BorrowPageView borrowingPageView
 	){
 		this.sidePanelView = view;
 		this.root = root;
-		this.dashboardPageView = dashboardPageView;
 		this.booksPageView = booksPageView;
 		this.membersPageView = membersPageView;
 		this.borrowingPageView = borrowingPageView;
-		root.setCenter(this.dashboardPageView);
+		root.setCenter(this.booksPageView);
 		setupNavigation();
-		setActiveButton(sidePanelView.getDashboardButton());
+		setActiveButton(sidePanelView.getBooksButton());
 	}
 
 	private void setActiveButton(Button button) {
-	    sidePanelView.getDashboardButton().pseudoClassStateChanged(ACTIVE, false);
 	    sidePanelView.getBooksButton().pseudoClassStateChanged(ACTIVE, false);
 	    sidePanelView.getMembersButton().pseudoClassStateChanged(ACTIVE, false);
 	    sidePanelView.getBorrowingButton().pseudoClassStateChanged(ACTIVE, false);
@@ -45,10 +41,6 @@ public class SidePanelController {
 	}
 
 	private void setupNavigation(){
-		sidePanelView.getDashboardButton().setOnAction(event -> {
-			root.setCenter(dashboardPageView);
-			setActiveButton(sidePanelView.getDashboardButton());
-		});
 		sidePanelView.getBooksButton().setOnAction(event -> {
 			root.setCenter(booksPageView);
 			setActiveButton(sidePanelView.getBooksButton());

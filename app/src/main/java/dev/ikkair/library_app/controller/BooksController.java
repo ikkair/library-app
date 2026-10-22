@@ -112,4 +112,8 @@ public class BooksController {
 			e.printStackTrace();
 		}
 	}
+
+	public void refreshBooks() {
+		loadPage(0);
+	}
 }

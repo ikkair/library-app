@@ -33,14 +33,22 @@ public class BooksPageView extends VBox {
 	private final Button nextButton;
 	private final Label pageLabel;
 	private final ComboBox<String> searchColumn;
+	private final Button addBookButton;
 	private static final PseudoClass BORROWED = PseudoClass.getPseudoClass("borrowed");
 	private Consumer<Book> onBorrowRequested = book -> {
 	};
 	private final Set<String> borrowedIsbns = new HashSet<>();
 
 	public BooksPageView() {
-		Label title = new Label("Books");
 		getStyleClass().add("page");
+		Label title = new Label("Books");
+		addBookButton = new Button("Tambah Buku");
+		addBookButton.getStyleClass().add("search-button");
+		HBox titleBar = new HBox(12, title, addBookButton);
+		titleBar.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+		HBox.setHgrow(title, javafx.scene.layout.Priority.ALWAYS);
+		title.setMaxWidth(Double.MAX_VALUE);
+		titleBar.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 		this.searchField = new TextField();
 		this.searchField.setPromptText("Cari buku...");
 		this.searchField.getStyleClass().add("search-field");
@@ -132,7 +140,7 @@ public class BooksPageView extends VBox {
 				nextButton);
 		paginationBar.getStyleClass().add("pagination-bar");
 		paginationBar.setAlignment(javafx.geometry.Pos.CENTER);
-		getChildren().addAll(title, searchHBox, searchStatus, bookTable, paginationBar);
+		getChildren().addAll(titleBar, searchHBox, searchStatus, bookTable, paginationBar);
 	}
 
 	public void resetTableScroll() {
@@ -190,5 +198,9 @@ public class BooksPageView extends VBox {
 		borrowedIsbns.clear();
 		borrowedIsbns.addAll(isbns);
 		bookTable.refresh();
+	}
+
+	public Button getAddBookButton() {
+		return addBookButton;
 	}
 }

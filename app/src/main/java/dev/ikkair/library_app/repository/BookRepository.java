@@ -170,4 +170,34 @@ public class BookRepository {
 					"Unsupported search column: " + column);
 		};
 	}
+
+	public void createBook(Book book) throws SQLException {
+		String sql = """
+				INSERT INTO books (
+				    isbn,
+				    title,
+				    author,
+				    publication_year,
+				    publisher
+				)
+				VALUES (?, ?, ?, ?, ?)
+				""";
+
+		try (
+				Connection connection = Database.connect();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, book.getIsbn());
+			statement.setString(2, book.getTitle());
+			statement.setString(3, book.getAuthor());
+			Year year = book.getPublicationYear();
+			if (year == null) {
+				statement.setNull(
+						4, java.sql.Types.INTEGER);
+			} else {
+				statement.setInt(4, year.getValue());
+			}
+			statement.setString(5, book.getPublisher());
+			statement.executeUpdate();
+		}
+	}
 }

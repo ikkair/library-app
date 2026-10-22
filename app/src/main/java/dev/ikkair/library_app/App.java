@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import dev.ikkair.library_app.controller.AddBookController;
 import dev.ikkair.library_app.controller.BooksController;
 import dev.ikkair.library_app.controller.BorrowController;
 import dev.ikkair.library_app.controller.MemberSelectionController;
@@ -11,9 +12,9 @@ import dev.ikkair.library_app.controller.MembersController;
 import dev.ikkair.library_app.controller.SidePanelController;
 import dev.ikkair.library_app.database.Database;
 import dev.ikkair.library_app.database.DatabaseInitializer;
+import dev.ikkair.library_app.view.AddBookPageView;
 import dev.ikkair.library_app.view.BooksPageView;
 import dev.ikkair.library_app.view.BorrowPageView;
-import dev.ikkair.library_app.view.DashboardPageView;
 import dev.ikkair.library_app.view.MemberSelectionPageView;
 import dev.ikkair.library_app.view.MembersPageView;
 import dev.ikkair.library_app.view.SidePanel;
@@ -34,17 +35,30 @@ public class App extends Application {
 		}
 		BorderPane root = new BorderPane();
 		SidePanel sidePanel = new SidePanel();
-		DashboardPageView dashboardPageView = new DashboardPageView();
 		BooksPageView booksPageView = new BooksPageView();
-		MembersPageView membersPageView = new MembersPageView();
-		BorrowPageView borrowPageView = new BorrowPageView();
 		BooksController bookController = new BooksController(booksPageView);
+		AddBookPageView addBookPageView = new AddBookPageView();
+		@SuppressWarnings("unused")
+		AddBookController addBookController = new AddBookController(addBookPageView,
+				() -> {
+					bookController.refreshBooks();
+					root.setCenter(booksPageView);
+				},
+				() -> {
+					root.setCenter(booksPageView);
+				});
+		booksPageView.getAddBookButton().setOnAction(
+				event -> {
+					addBookPageView.clearForm();
+					root.setCenter(addBookPageView);
+				});
+		MembersPageView membersPageView = new MembersPageView();
 		@SuppressWarnings("unused")
 		MembersController memberController = new MembersController(membersPageView);
+		BorrowPageView borrowPageView = new BorrowPageView();
 		BorrowController borrowController = new BorrowController(borrowPageView);
 		borrowController.setOnBookReturned(
-			bookController::refreshBorrowedBooks
-		);
+				bookController::refreshBorrowedBooks);
 		bookController.setOnBorrowRequested(book -> {
 			MemberSelectionPageView selectionPage = new MemberSelectionPageView();
 			new MemberSelectionController(
@@ -62,7 +76,6 @@ public class App extends Application {
 		SidePanelController sidePanelController = new SidePanelController(
 				sidePanel,
 				root,
-				dashboardPageView,
 				booksPageView,
 				membersPageView,
 				borrowPageView);

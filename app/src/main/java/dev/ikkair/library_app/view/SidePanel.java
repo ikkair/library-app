@@ -5,46 +5,33 @@ import javafx.scene.layout.VBox;
 
 public class SidePanel extends VBox {
 
-    private final Button dashboardButton;
     private final Button booksButton;
     private final Button membersButton;
     private final Button borrowingButton;
 
     public SidePanel() {
-
-		getStyleClass().add("sidebar");
-
-        this.dashboardButton = new Button("Dashboard");
+        getStyleClass().add("sidebar");
         this.booksButton = new Button("Buku");
         this.membersButton = new Button("Anggota");
         this.borrowingButton = new Button("Peminjaman");
-
-        dashboardButton.getStyleClass().add("menu-button");
         booksButton.getStyleClass().add("menu-button");
         membersButton.getStyleClass().add("menu-button");
         borrowingButton.getStyleClass().add("menu-button");
-
         getChildren().addAll(
-            dashboardButton,
-            booksButton,
-            membersButton,
-            borrowingButton
-        );
+                booksButton,
+                membersButton,
+                borrowingButton);
     }
 
-    public Button getDashboardButton(){
-        return this.dashboardButton;
-    }
-
-    public Button getBooksButton(){
+    public Button getBooksButton() {
         return this.booksButton;
     }
 
-    public Button getMembersButton(){
+    public Button getMembersButton() {
         return this.membersButton;
     }
-   
-    public Button getBorrowingButton(){
+
+    public Button getBorrowingButton() {
         return this.borrowingButton;
     }
 }
