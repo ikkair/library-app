@@ -93,4 +93,11 @@ public class MembersController {
 		});
 		membersPageView.getSearchField().setOnAction(event -> membersPageView.getSearchButton().fire());
 	}
+
+	public void refreshMembers() {
+		activeSearchQuery = "";
+		membersPageView.getSearchField().clear();
+		membersPageView.getSearchColumn().setValue("Nama");
+		loadPage(0);
+	}
 }

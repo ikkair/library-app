@@ -146,4 +146,25 @@ public class MemberRepository {
 					"Unsupported search column: " + column);
 		};
 	}
+
+	public void createMember(Member member) throws SQLException {
+		String sql = """
+				INSERT INTO members (
+				    name,
+				    email,
+				    registration_date
+				)
+				VALUES (?, ?, ?)
+				""";
+		try (
+				Connection connection = Database.connect();
+				PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, member.getName());
+			statement.setString(2, member.getEmail());
+			statement.setString(
+					3,
+					member.getRegistrationDate().toString());
+			statement.executeUpdate();
+		}
+	}
 }

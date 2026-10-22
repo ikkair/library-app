@@ -29,10 +29,17 @@ public class MembersPageView extends VBox {
     private final Button nextButton;
     private final Label pageLabel;
     private final ComboBox<String> searchColumn;
+    private final Button addMemberButton;
 
     public MembersPageView() {
         Label title = new Label("Members");
         getStyleClass().add("page");
+        addMemberButton = new Button("Tambah Member");
+        addMemberButton.getStyleClass().add("search-button");
+        HBox titleBar = new HBox(12, title, addMemberButton);
+        titleBar.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(title, Priority.ALWAYS);
+        title.setMaxWidth(Double.MAX_VALUE);
         searchField = new TextField();
         searchField.setPromptText("Cari anggota...");
         searchField.getStyleClass().add("search-field");
@@ -102,7 +109,7 @@ public class MembersPageView extends VBox {
         paginationBar.getStyleClass().add("pagination-bar");
         paginationBar.setAlignment(Pos.CENTER);
         getChildren().addAll(
-                title,
+                titleBar,
                 searchHBox,
                 searchStatus,
                 memberTable,
@@ -151,5 +158,9 @@ public class MembersPageView extends VBox {
 
     public ComboBox<String> getSearchColumn() {
         return searchColumn;
+    }
+
+    public Button getAddMemberButton() {
+        return addMemberButton;
     }
 }

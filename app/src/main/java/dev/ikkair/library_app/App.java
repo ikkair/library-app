@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import dev.ikkair.library_app.controller.AddBookController;
+import dev.ikkair.library_app.controller.AddMemberController;
 import dev.ikkair.library_app.controller.BooksController;
 import dev.ikkair.library_app.controller.BorrowController;
 import dev.ikkair.library_app.controller.MemberSelectionController;
@@ -12,7 +13,9 @@ import dev.ikkair.library_app.controller.MembersController;
 import dev.ikkair.library_app.controller.SidePanelController;
 import dev.ikkair.library_app.database.Database;
 import dev.ikkair.library_app.database.DatabaseInitializer;
+import dev.ikkair.library_app.repository.MemberRepository;
 import dev.ikkair.library_app.view.AddBookPageView;
+import dev.ikkair.library_app.view.AddMemberPageView;
 import dev.ikkair.library_app.view.BooksPageView;
 import dev.ikkair.library_app.view.BorrowPageView;
 import dev.ikkair.library_app.view.MemberSelectionPageView;
@@ -52,9 +55,23 @@ public class App extends Application {
 					addBookPageView.clearForm();
 					root.setCenter(addBookPageView);
 				});
+		MemberRepository memberRepository = new MemberRepository();
 		MembersPageView membersPageView = new MembersPageView();
-		@SuppressWarnings("unused")
 		MembersController memberController = new MembersController(membersPageView);
+		AddMemberPageView addMemberPageView = new AddMemberPageView();
+		@SuppressWarnings("unused")
+		AddMemberController addMemberController = new AddMemberController(addMemberPageView, memberRepository,
+				() -> {
+					memberController.refreshMembers();
+					root.setCenter(membersPageView);
+				},
+				() -> {
+					root.setCenter(membersPageView);
+				});
+		membersPageView.getAddMemberButton().setOnAction(event -> {
+			addMemberPageView.clearForm();
+			root.setCenter(addMemberPageView);
+		});
 		BorrowPageView borrowPageView = new BorrowPageView();
 		BorrowController borrowController = new BorrowController(borrowPageView);
 		borrowController.setOnBookReturned(
